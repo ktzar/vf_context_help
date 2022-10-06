@@ -16,7 +16,7 @@
                 "*://*.vodafone.co.uk/*"
             ],
             "js": [
-                "dist/assets/index.0f2e9d43.js"
+                "dist/vf-context.mjs"
             ]
         }
     ],

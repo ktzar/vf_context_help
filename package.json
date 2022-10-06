@@ -4,7 +4,8 @@
   "description": "",
   "main": "background.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "vite build"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "@vitejs/plugin-react": "^2.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "rollup": "^2.79.1",
     "vite": "^3.1.5"
   },
   "dependencies": {

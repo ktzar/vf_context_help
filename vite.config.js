@@ -4,14 +4,14 @@ import { resolve } from 'path'
 
 export default defineConfig({
     plugins: [react()],
-    lib: {
-        // Could also be a dictionary or array of multiple entry points
-        entry: resolve(__dirname, 'src/inject.jsx'),
-        name: 'VF Context',
-        // the proper extensions will be added
-        fileName: 'vf-context'
-      },
     build: {
+        lib: {
+            // Could also be a dictionary or array of multiple entry points
+            entry: resolve(__dirname, 'src/inject.jsx'),
+            name: 'VF Context',
+            // the proper extensions will be added
+            fileName: 'vf-context'
+        },
         rollupOptions: {
             output: {
                 assetFileNames: 'assets/[name]safsdkhfsdk-[hash][extname]'
@@ -22,6 +22,6 @@ export default defineConfig({
     },
     define: {
         'global': {},
-        '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),
+        'process.env': {}
     },
 })
