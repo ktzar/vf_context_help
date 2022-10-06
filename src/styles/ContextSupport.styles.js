@@ -10,8 +10,11 @@ export const buttonStyles = {
     background: 'red',
     color: 'white',
     border: '2px solid white',
-    padding: '2px 18px',
-    marginTop: '100px',
+    padding: '4px 18px',
+    position: 'absolute',
+    left:'-53px',
+    top: '230px',
+    width: 'max-content'
 }
 
 export const contentStyles = {
@@ -20,6 +23,6 @@ export const contentStyles = {
     top: '0',
     height: '100%',
     background: 'white',
-    border: '2px solid orange',
-    width: '300px'
+    width: '500px',
+    boxShadow: 'rgb(0 0 0 / 16%) 0px 2px 8px'
 }

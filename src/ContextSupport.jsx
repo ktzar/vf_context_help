@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import Answer from './Answer'
-import { containerStyles, buttonStyles, contentStyles } from './ContextSupport.styles'
+import { containerStyles, buttonStyles, contentStyles } from './styles/ContextSupport.styles'
 
 const mappings = [
     {
@@ -22,7 +22,7 @@ export default (props) => {
 
     const fetchHelp = async (term) => {
         await sessionGetterPromise
-        fetch(`https://vodafoneuk.nanorep.co/~vodafoneuk/api/kb/v1/search?sid=${sessionId}&text=${term}`)
+        fetch(`https://vodafoneuk.nanorep.co/~vodafoneuk/api/kb/v1/search?sid=${2793686111103339604}&text=${term}`)
             .then(res => res.json())
             .then(data => setQuestions(data.answers))
     }
@@ -46,9 +46,9 @@ export default (props) => {
 
     return <div style={{...extraStyles, ...containerStyles}}>
         <button onClick={toggleOpen} style={buttonStyles}>
-                Hello from Source:web
+                Help and Support 
             </button>
-        {opened && <div style={contentStyles}>
+            {opened && <div style={contentStyles}>
             {questions.map(q => <Answer answer={q}/>)}
             </div>}
     </div>}
