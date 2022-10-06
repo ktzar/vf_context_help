@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Answer from './Answer';
+import FAQ from './FAQ'
 import {
 	containerStyles,
 	buttonStyles,
@@ -56,9 +56,7 @@ export default (props) => {
 			<div style={SideTrayWrapper}>
 				{opened && (
 					<div style={contentStyles}>
-						{questions.map((q) => (
-							<Answer answer={q} />
-						))}
+                        <FAQ questions={questions} />
 					</div>
 				)}
 			</div>

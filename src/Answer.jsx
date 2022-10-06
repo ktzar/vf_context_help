@@ -1,12 +1,8 @@
 export default props => {
-    const { title, summary } = props.answer
+    const { summary } = props
     function createMarkup() {
         return {__html: summary};
     }
 
-    return <div>
-        <h3>{title}</h3>
-        <p dangerouslySetInnerHTML={createMarkup()}></p>
-    </div>
-
+    return <p dangerouslySetInnerHTML={createMarkup()}></p>
 }
