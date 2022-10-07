@@ -6,11 +6,59 @@ import {
 	contentStyles
 } from './styles/ContextSupport.styles';
 
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+  }
+
 const mappings = [
 	{
-		regexp: /broadband/,
+		regexp: /\/mobile-broadband-deals/,
+		query: 'tethering'
+	},
+	{
+		regexp: /\/checkout/,
+		query: 'first bill'
+	},
+	{
+		regexp: /\/pay-monthly-contracts/,
+		query: 'pay monthly'
+	},
+	{
+		regexp: /\/best-sim-only-deals/,
+		query: 'simo'
+	},
+	{
+		regexp: /full-fibre/,
+		query: 'speed'
+	},
+	{
+		regexp: /\/smart-watches-and-wearables/,
+		query: 'watch'
+	},
+	{
+		regexp: /\/broadband/,
 		query: 'router'
-	}
+	},
+	{
+		regexp: /basket/,
+		query: async () => {
+            const basketId = getCookie('basketId')
+            return fetch('https://www.vodafone.co.uk/basket/api/basket/v2/basket/' + basketId)
+                .then(d => d.json())
+                .then(basket => {
+                    const hasBroadband = basket?.packages.some(p => p.planType.toLowerCase().includes('broadband'))
+                    const hasBingo = basket?.packages.some(p => p.planType.toLowerCase().includes('bingo'))
+                    console.log({basket, hasBingo, hasBroadband})
+
+                    if (hasBroadband) return 'installation'
+                    if (hasBingo) return 'activate sim'
+
+                })
+
+        } 
+	},
 ];
 
 let sessionId = '';
@@ -27,38 +75,48 @@ export default (props) => {
 	const fetchHelp = async (term) => {
 		await sessionGetterPromise;
 		fetch(
-			`https://vodafoneuk.nanorep.co/~vodafoneuk/api/kb/v1/search?sid=${2793686111103339604}&text=${term}`
+			`https://vodafoneuk.nanorep.co/~vodafoneuk/api/kb/v1/search?sid=${sessionId}&text=${term}`
 		)
 			.then((res) => res.json())
 			.then((data) => setQuestions(data.answers));
 	};
 
 	useEffect(() => {
-		for (let mapping of mappings) {
-			if (document.location.href.match(mapping.regexp)) {
-				fetchHelp(mapping.query);
-				break;
-			}
-		}
+        async function fetchMappings () {
+            for (let mapping of mappings) {
+                if (document.location.href.match(mapping.regexp)) {
+                    if (typeof mapping.query === 'function') {
+                        const term = await mapping.query()
+                        fetchHelp(term);
+                    } else {
+                        fetchHelp(mapping.query);
+                    }
+                    break;
+                }
+            }
+        }
+        fetchMappings()
 	}, []);
 
 	const toggleOpen = () => {
 		setOpened(!opened);
 	};
 
-	const extraStyles = opened ? { right: '200px' } : { right: 'px' };
+	const extraStyles = opened ? { left: '500px' } : { left: '0px' };
+    const symbol = opened ? '⌃': '⌄'
 
 	return (
 		<div style={{ ...extraStyles, ...containerStyles }}>
-			<button onClick={toggleOpen} style={buttonStyles}>
-				Help and Support
-			</button>
-			<div style={SideTrayWrapper}>
-				{opened && (
-					<div style={contentStyles}>
-                        <FAQ questions={questions} />
-					</div>
-				)}
+
+            <div style={{padding: '10px 20px'}}>
+                <button onClick={toggleOpen} style={buttonStyles}>
+                Ask me anything {symbol}
+                </button>
+            </div>
+			<div style={{}}>
+                <div style={{...contentStyles}}>
+                    <FAQ questions={questions} />
+                </div>
 			</div>
 		</div>
 	);
